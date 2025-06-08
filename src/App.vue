@@ -1,5 +1,11 @@
 <script setup>
+import { ref } from 'vue';
 import HelloWorld from './components/HelloWorld.vue';
+const num = ref(0);
+const addNum = () => {
+	num.value++;
+	console.log(num.value);
+};
 </script>
 
 <template>
@@ -12,6 +18,8 @@ import HelloWorld from './components/HelloWorld.vue';
 		</a>
 	</div>
 	<p>Hi</p>
+	{{ num }}
+	<button type="button" @click="addNum">Num ++</button>
 	<HelloWorld msg="Vite + Vue" />
 </template>
 
