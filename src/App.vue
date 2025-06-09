@@ -1,40 +1,49 @@
-<script setup>
-import { ref } from 'vue';
-import HelloWorld from './components/HelloWorld.vue';
-const num = ref(0);
-const addNum = () => {
-	num.value++;
-	console.log(num.value);
-};
-</script>
-
 <template>
-	<div>
-		<a href="https://vite.dev" target="_blank">
-			<img src="/vite.svg" class="logo" alt="Vite logo" />
-		</a>
-		<a href="https://vuejs.org/" target="_blank">
-			<img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-		</a>
+	<div class="container">
+		<h1>📝 我的待辦清單</h1>
+		<input v-model="newTodo" type="text" placeholder="輸入待辦事項" />
+		<button type="button">新增</button>
+
+		<div v-for="(todo, index) in todos" :key="index" class="todo">
+			<input type="checkbox" />
+			<span>{{ todo.text }}</span>
+			<button type="button">刪除</button>
+		</div>
 	</div>
-	<p>Hi</p>
-	{{ num }}
-	<button type="button" @click="addNum">Num ++</button>
-	<HelloWorld msg="Vite + Vue" />
 </template>
 
+<script setup>
+import { ref } from 'vue';
+
+const newTodo = ref('');
+const todos = ref([]);
+</script>
+
 <style scoped>
-.logo {
-	height: 6em;
-	padding: 1.5em;
-	will-change: filter;
-	transition: filter 300ms;
+.container {
+	font-family: Arial, sans-serif;
+	margin: 2em;
 }
-.logo:hover {
-	filter: drop-shadow(0 0 2em #646cffaa);
+
+.todo {
+	display: flex;
+	align-items: center;
+	margin-bottom: 0.5em;
 }
-.logo.vue:hover {
-	filter: drop-shadow(0 0 2em #42b883aa);
+
+.todo.completed span {
+	text-decoration: line-through;
+	color: gray;
+}
+
+.todo button {
+	margin-left: 1em;
+}
+
+input[type='text'] {
+	padding: 0.5em;
+	width: 300px;
+	margin-right: 0.5em;
 }
 </style>
 
