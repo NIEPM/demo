@@ -1,7 +1,12 @@
 <template>
 	<div class="container">
 		<h1>📝 我的待辦清單</h1>
-		<input v-model="newTodo" type="text" placeholder="輸入待辦事項" />
+		<input
+			v-model="newTodo"
+			type="text"
+			@keyup.enter="addTodo"
+			placeholder="輸入待辦事項"
+		/>
 		<button type="button" @click="addTodo">新增</button>
 
 		<div
