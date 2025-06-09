@@ -2,21 +2,54 @@
 	<div class="container">
 		<h1>📝 我的待辦清單</h1>
 		<input v-model="newTodo" type="text" placeholder="輸入待辦事項" />
-		<button type="button">新增</button>
+		<button type="button" @click="addTodo">新增</button>
 
-		<div v-for="(todo, index) in todos" :key="index" class="todo">
-			<input type="checkbox" />
+		<div
+			v-for="(todo, index) in todos"
+			:key="index"
+			class="todo"
+			:class="{ completed: todo.completed }"
+		>
+			<input type="checkbox" v-model="todo.completed" @change="saveTodos" />
 			<span>{{ todo.text }}</span>
-			<button type="button">刪除</button>
+			<button type="button" @click="removeTodo(index)">刪除</button>
 		</div>
 	</div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 
 const newTodo = ref('');
 const todos = ref([]);
+
+const loadTodos = () => {
+	const saved = localStorage.getItem('vue-todos');
+	if (saved) {
+		todos.value = JSON.parse(saved);
+	}
+};
+
+const saveTodos = () => {
+	localStorage.setItem('vue-todos', JSON.stringify(todos.value));
+};
+
+const addTodo = () => {
+	const text = newTodo.value.trim();
+	if (text) {
+		todos.value.push({ text, completed: false });
+		newTodo.value = '';
+		saveTodos();
+	}
+};
+
+const removeTodo = (index) => {
+	todos.value.splice(index, 1);
+	saveTodos();
+};
+
+onMounted(loadTodos);
+watch(todos, saveTodos, { deep: true });
 </script>
 
 <style scoped>
